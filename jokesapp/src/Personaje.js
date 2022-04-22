@@ -13,23 +13,46 @@ function Personaje() {
         }
     } else {
 
-        const urlAPI = `https://gateway.marvel.com/v1/public/comics?ts=1&apikey=5940fff28db1e6a4206df6e802b2d6da&hash=5e093566eddf081a45296163589247c9`
+        const urlAPI = `http://gateway.marvel.com/v1/public/characters?ts=1&apikey=5940fff28db1e6a4206df6e802b2d6da&hash=5e093566eddf081a45296163589247c9`
         fetch(urlAPI).then((res) => res.json()).then((data) => {
             setCharacters(data.data.results);
-            console.log(JSON.stringify(data.data.results))
             localStorage.setItem("characters", JSON.stringify(data.data.results));
         })
     }
     }, [])
+
   
+
+    let renderPersonajes = () => {
+        return characters.map((item, i) =>(
+          <tr>
+            <th scope="row">{item.id}</th>
+            <td>{item.name}</td>
+            <td>{item.description}</td>
+            <td> <img src={item.thumbnail.path +'.'+ item.thumbnail.extension} style={{maxWidth: "250px"}}/></td>
+          </tr>
+        ));
+    };
   
   
   return (
     
     <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Descripcion</th>
+          <th scope="col">Imagen</th>
+        </tr>
+      </thead>
+      <tbody>
+        {renderPersonajes()}
 
-
-    </div>
+      </tbody>
+    </table>
+  </div>
   );
 }
 
